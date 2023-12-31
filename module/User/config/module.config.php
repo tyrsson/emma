@@ -47,6 +47,22 @@ return [
             Form\Fieldset\Grid::class                => Form\Fieldset\Factory\GridFactory::class,
         ],
     ],
+    'navigation' => [
+        'default' => [
+            [
+                'label' => 'User List',
+                'route' => 'user',
+                'class' => 'nav-link',
+                'action' => 'index',
+            ],
+            [
+                'label' => 'Create User',
+                'route' => 'user',
+                'class' => 'nav-link',
+                'action' => 'create',
+            ],
+        ],
+    ],
     'view_manager' => [
         'template_path_stack'      => [
             __DIR__ . '/../view',
