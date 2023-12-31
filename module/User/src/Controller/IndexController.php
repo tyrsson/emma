@@ -44,6 +44,9 @@ class IndexController extends AbstractActionController
         }
         try {
             $result = $this->gateway->save($form->getData());
+            if ($result) {
+                $this->redirect()->toUrl('/user');
+            }
         } catch (\Throwable $th) {
             //throw $th;
         }

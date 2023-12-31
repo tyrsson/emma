@@ -13,7 +13,7 @@ return [
             'user' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '[/user/:action]',
+                    'route'    => '[/user[/:action]]',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
                         'action'     => 'index',
