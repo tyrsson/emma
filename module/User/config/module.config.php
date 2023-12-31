@@ -13,13 +13,14 @@ return [
             'user' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '[/user[/:action]]',
+                    'route'    => '[/user[/:action[/:id]]]',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
                         'action'     => 'index',
                     ],
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]*',
                     ],
                 ],
             ],
@@ -45,6 +46,8 @@ return [
             Form\UserForm::class                     => Form\Factory\UserFormFactory::class,
             Form\Grid::class                         => Form\Factory\GridFactory::class,
             Form\Fieldset\Grid::class                => Form\Fieldset\Factory\GridFactory::class,
+            Form\EditUserForm::class                 => Form\Factory\EditUserFormFactory::class,
+            Form\Fieldset\EditUserFieldset::class    => Form\Fieldset\Factory\EditUserFieldsetFactory::class,
         ],
     ],
     'navigation' => [

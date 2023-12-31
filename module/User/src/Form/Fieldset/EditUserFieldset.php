@@ -15,7 +15,7 @@ use User\Db\UserModel;
 use Webinertia\Validator\Password as PassValidator;
 use Webinertia\Filter\PasswordHash;
 
-class Grid extends Fieldset implements InputFilterProviderInterface
+class EditUserFieldset extends Fieldset implements InputFilterProviderInterface
 {
     protected $attributes = ['class' => 'row g-3 grid-login'];
     public function __construct($name = 'user-data', $options = [])
@@ -86,44 +86,6 @@ class Grid extends Fieldset implements InputFilterProviderInterface
                 ],
             ],
         ]);
-        $this->add([
-            'name'       => 'password',
-            'type'       => Element\Password::class,
-            'attributes' => [
-                'class'            => 'form-control password',
-                'placeholder'      => 'Password',
-                'aria-describedby' => 'passwordHelp',
-            ],
-            'options' => [
-                'label'                => 'Password',
-                'help'                 => '8 characters, atleast 1 uppercase, 2 digits, and 2 special characters.',
-                'bootstrap_attributes' => [
-                    'class' => 'col-md-6',
-                ],
-                'help_attributes'      => [
-                    'class' => 'form-text text-muted',
-                ],
-            ],
-        ]);
-        $this->add([
-            'name'       => 'conf_password',
-            'type'       => Element\Password::class,
-            'attributes' => [
-                'class'            => 'form-control password',
-                'placeholder'      => 'Password',
-                'aria-describedby' => 'passwordHelp',
-            ],
-            'options' => [
-                'label'                => 'Confirm Password',
-                'help'                 => 'Please confirm your password.',
-                'bootstrap_attributes' => [
-                    'class' => 'col-md-6',
-                ],
-                'help_attributes'      => [
-                    'class' => 'form-text text-muted',
-                ],
-            ],
-        ]);
     }
 
     public function getInputFilterSpecification()
@@ -171,40 +133,6 @@ class Grid extends Fieldset implements InputFilterProviderInterface
                     ],
                     // @see EmailAddress for $options
                     ['name' => Validator\EmailAddress::class],
-                ],
-            ],
-            'password'    => [
-                'required'   => true,
-                'filters'    => [
-                    ['name' => Filter\StripTags::class],
-                    ['name' => Filter\StringTrim::class],
-                    ['name' => PasswordHash::class],
-                ],
-                'validators' => [
-                    [
-                        'name' => PassValidator::class,
-                        'options' => [
-                            'length'  => 8, // overall length of password
-                            'upper'   => 1, // uppercase count
-                            'lower'   => 2, // lowercase count
-                            'digit'   => 2, // digit count
-                            'special' => 2, // special char count
-                        ],
-                    ],
-                ],
-            ],
-            'conf_password' => [
-                'required' =>  true,
-                'validators' => [
-                    [
-                        'name'    => Validator\Identical::class,
-                        'options' => [
-                            'token'    => 'password',
-                            'messages' => [
-                               Validator\Identical::NOT_SAME => 'Passwords are not the same',
-                            ],
-                        ],
-                    ],
                 ],
             ],
         ];

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace User\Db;
 
-use DeepCopy\Reflection\ReflectionHelper;
-use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Db\Sql\Where;
 use Laminas\Db\TableGateway\AbstractTableGateway;
 use Laminas\Hydrator\ReflectionHydrator;
 use Webinertia\Db\ModelTrait;
@@ -35,6 +34,9 @@ final class TableGateway
                 $this->gateway->insert($set);
                 $set['id'] = $this->gateway->getLastInsertValue();
             } else {
+                if (isset($set['password']) || $set['password'] === null) {
+                    unset($set['password']);
+                }
                  $this->gateway->update($set, ['id' => $set['id']]);
             }
         } catch (\Throwable $th) {
@@ -42,5 +44,17 @@ final class TableGateway
             throw $th;
         }
         return $this->hydrator->hydrate($set, $entity);
+    }
+
+    public function fetchRow(string $column, mixed $value, ?array $columns = null): EntityInterface
+    {
+        $where = new Where();
+        $where->equalTo($column, $value);
+        $select = $this->gateway->getSql()->select();
+        $select->where($where);
+        if ($columns !== null) {
+            return $this->gateway->selectWith($select)->current();
+        }
+        return $this->gateway->select($where)->current();
     }
 }

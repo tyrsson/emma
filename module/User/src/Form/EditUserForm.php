@@ -8,11 +8,11 @@ use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Submit;
 use Limatus\Form\Element;
 use Limatus\Form\Form;
-use User\Form\Fieldset\Grid as Fieldset;
+use User\Form\Fieldset\EditUserFieldset as Fieldset;
 
 use function strtolower;
 
-final class Grid extends Form
+final class EditUserForm extends Form
 {
     public function __construct($name = 'grid', $options = ['mode' => self::DEFAULT_MODE, 'fieldset' => true])
     {
@@ -28,7 +28,7 @@ final class Grid extends Form
                 $manager->build(
                     Fieldset::class,
                     [
-                        'name'       => 'demo',
+                        'name'       => 'user-data',
                     ]
                 )
             );
