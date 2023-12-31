@@ -27,7 +27,7 @@ return [
                 ],
             ],
         ],
-        
+
     ],
     'service_manager' => [
         'factories' => [
@@ -46,6 +46,8 @@ return [
             Form\Fieldset\LoginFieldset::class       => Form\Fieldset\Factory\LoginFieldsetFactory::class,
             Form\Fieldset\PasswordFieldset::class    => Form\Fieldset\Factory\PasswordFieldsetFactory::class,
             Form\UserForm::class                     => Form\Factory\UserFormFactory::class,
+            Form\Grid::class                         => Form\Factory\GridFactory::class,
+            Form\Fieldset\Grid::class                => Form\Fieldset\Factory\GridFactory::class,
         ],
     ],
     'view_manager' => [
