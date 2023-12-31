@@ -7,6 +7,7 @@ namespace User\Form\Fieldset;
 use Laminas\Filter;
 use Laminas\InputFilter\InputFilterProviderInterface;
 use Laminas\Validator;
+use Laminas\Form\Element\Password;
 use Limatus\Form\Fieldset;
 use Limatus\Form\Element;
 
@@ -20,6 +21,41 @@ class Grid extends Fieldset implements InputFilterProviderInterface
 
     public function init(): void
     {
+        $this->add([
+            'name'       => 'text_hint',
+            'type'       => Element\Text::class,
+            'attributes' => [
+                'class'       => 'form-control-plaintext',
+                'placeholder' => 'Please enter your desired account details to create an account.',
+                'readonly'    => true,
+                'disabled'    => true,
+            ],
+            'options'    => [
+                'label'                => '',
+                'bootstrap_attributes' => [
+                    'class' => 'col-md-12',
+                ],
+            ],
+        ]);
+        $this->add([
+            'name'       => 'userName',
+            'type'       => Element\Text::class,
+            'attributes' => [
+                'class'            => 'form-control userName',
+                'placeholder'      => 'Username',
+                'aria-describedby' => 'userNameHelp',
+            ],
+            'options'    => [
+                'label'                => 'Username',
+                'help'                 => 'Must be a valid email no more than 320 characters in length.',
+                'bootstrap_attributes' => [
+                    'class' => 'col-md-6'
+                ],
+                'help_attributes'      => [
+                    'class' => 'form-text text-muted',
+                ],
+            ],
+        ]);
         $this->add([
             'name'       => 'email',
             'type'       => Element\Text::class,
@@ -41,7 +77,7 @@ class Grid extends Fieldset implements InputFilterProviderInterface
         ]);
         $this->add([
             'name'       => 'password',
-            'type'       => Element\Text::class,
+            'type'       => Password::class,
             'attributes' => [
                 'class'            => 'form-control password',
                 'placeholder'      => 'Password',
@@ -59,109 +95,21 @@ class Grid extends Fieldset implements InputFilterProviderInterface
             ],
         ]);
         $this->add([
-            'name'       => 'address',
-            'type'       => Element\Text::class,
+            'name'       => 'conf_password',
+            'type'       => Password::class,
             'attributes' => [
-                'class'       => 'form-control address',
-                'placeholder' => '1234 Main St',
+                'class'            => 'form-control password',
+                'placeholder'      => 'Password',
+                'aria-describedby' => 'passwordHelp',
             ],
-            'options'    => [
-                'label'                => 'Address',
-                'bootstrap_attributes' => [
-                    'class' => 'col-md-12',
-                ],
-            ],
-        ]);
-        $this->add([
-            'name'       => 'address_two',
-            'type'       => Element\Text::class,
-            'attributes' => [
-                'class'       => 'form-control-plaintext',
-                'placeholder' => 'Apartment, studio, or floor',
-                'readonly'    => true,
-                'disabled'    => true,
-            ],
-            'options'    => [
-                'label'                => 'Plain Text example',
-                'bootstrap_attributes' => [
-                    'class' => 'col-md-12',
-                ],
-            ],
-        ]);
-        $this->add([
-            'name'       => 'city',
-            'type'       => Element\Text::class,
-            'attributes' => [
-                'class'            => 'form-control address',
-                'aria-describedby' => 'cityHelp',
-            ],
-            'options'    => [
-                'label'                => 'City',
-                'help'                 => 'Can not exceed 255 characters.',
+            'options' => [
+                'label'                => 'Confirm Password',
+                'help'                 => 'Please confirm your password.',
                 'bootstrap_attributes' => [
                     'class' => 'col-md-6',
                 ],
                 'help_attributes'      => [
                     'class' => 'form-text text-muted',
-                ],
-            ],
-        ]);
-        $this->add([
-            'name'       => 'state',
-            'type'       => Element\Text::class,
-            'attributes' => [
-                'class'            => 'form-control state',
-                'aria-describedby' => 'stateHelp',
-            ],
-            'options' => [
-                'label'                => 'State',
-                'help'                 => 'Only valid U.S. state abbreviations.',
-                'bootstrap_attributes' => [
-                    'class' => 'col-md-4',
-                ],
-                'help_attributes'      => [
-                    'class' => 'form-text text-muted',
-                ],
-            ],
-        ]);
-        $this->add([
-            'name'       => 'zip',
-            'type'       => Element\Text::class,
-            'attributes' => [
-                'class'            => 'form-control zip',
-                'aria-describedby' => 'zipHelp',
-            ],
-            'options'    => [
-                'label'                => 'Zip',
-                'help'                 => '5 digit U.S. zip code.',
-                'bootstrap_attributes' => [
-                    'class' => 'col-md-2',
-                ],
-                'help_attributes'      => [
-                    'class' => 'form-text text-muted',
-                ],
-            ],
-        ]);
-        $this->add([
-            'name'       => 'login_type',
-            'type'       => Element\Checkbox::class,
-            'attributes' => [
-                'value' => '1',
-                'class' => 'form-check-input example-checkbox',
-            ],
-            'options'    => [
-                'label'              => 'Checkbox',
-                'use_hidden_element' => false,
-                'checked_value'      => '1',
-                'unchecked_value'    => '0',
-                'bootstrap_attributes' => [
-                    'class' => 'col-md-12', // used in the outer most wrapper div for checkbox
-                ],
-                'label_attributes'     => [
-                    'class' => 'form-check-label',
-                ],
-                'label_options'        => [
-                    'label_position' => 'APPEND',
                 ],
             ],
         ]);
