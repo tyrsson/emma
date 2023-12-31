@@ -6,6 +6,7 @@
  * This should be an array of module namespaces used in the application.
  */
 return [
+    //'Webinertia\Utils',
     'Laminas\Navigation',
     'Webinertia\Filter',
     'Webinertia\Validator',
