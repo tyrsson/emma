@@ -12,7 +12,6 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerInterface;
 use User\Db\TableGateway;
 use User\Db\UserModel;
-use User\Controller\AbstractTableGateway;
 
 final class TableGatewayFactory implements FactoryInterface
 {

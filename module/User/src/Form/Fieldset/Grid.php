@@ -7,9 +7,13 @@ namespace User\Form\Fieldset;
 use Laminas\Filter;
 use Laminas\InputFilter\InputFilterProviderInterface;
 use Laminas\Validator;
-use Laminas\Form\Element\Password;
+use Laminas\Hydrator\ReflectionHydrator;
 use Limatus\Form\Fieldset;
 use Limatus\Form\Element;
+use Reflection;
+use User\Db\UserModel;
+use Webinertia\Validator\Password as PassValidator;
+use Webinertia\Filter\PasswordHash;
 
 class Grid extends Fieldset implements InputFilterProviderInterface
 {
@@ -21,6 +25,9 @@ class Grid extends Fieldset implements InputFilterProviderInterface
 
     public function init(): void
     {
+        $this->setObject(new UserModel());
+        $this->setHydrator(new ReflectionHydrator());
+        $this->setUseAsBaseFieldset(true);
         $this->add([
             'name'       => 'text_hint',
             'type'       => Element\Text::class,
@@ -77,7 +84,7 @@ class Grid extends Fieldset implements InputFilterProviderInterface
         ]);
         $this->add([
             'name'       => 'password',
-            'type'       => Password::class,
+            'type'       => Element\Password::class,
             'attributes' => [
                 'class'            => 'form-control password',
                 'placeholder'      => 'Password',
@@ -85,7 +92,7 @@ class Grid extends Fieldset implements InputFilterProviderInterface
             ],
             'options' => [
                 'label'                => 'Password',
-                'help'                 => 'Must contain atleast 1 uppercase, 1 digit, and 1 special character.',
+                'help'                 => '8 characters, atleast 1 uppercase, 2 digits, and 2 special characters.',
                 'bootstrap_attributes' => [
                     'class' => 'col-md-6',
                 ],
@@ -96,7 +103,7 @@ class Grid extends Fieldset implements InputFilterProviderInterface
         ]);
         $this->add([
             'name'       => 'conf_password',
-            'type'       => Password::class,
+            'type'       => Element\Password::class,
             'attributes' => [
                 'class'            => 'form-control password',
                 'placeholder'      => 'Password',
@@ -142,84 +149,32 @@ class Grid extends Fieldset implements InputFilterProviderInterface
                 'filters'    => [
                     ['name' => Filter\StripTags::class],
                     ['name' => Filter\StringTrim::class],
+                    ['name' => PasswordHash::class],
                 ],
                 'validators' => [
                     [
-                        'name'    => Validator\StringLength::class,
+                        'name' => PassValidator::class,
                         'options' => [
-                            'encoding' => 'UTF-8',
-                            'min'      => 1,
-                            'max'      => 100, // cant be longer than this
+                            'length'  => 8, // overall length of password
+                            'upper'   => 1, // uppercase count
+                            'lower'   => 2, // lowercase count
+                            'digit'   => 2, // digit count
+                            'special' => 2, // special char count
                         ],
                     ],
                 ],
             ],
-            'address'     => [
-                'required'   => true,
-                'filters'    => [
-                    ['name' => Filter\StripTags::class],
-                    ['name' => Filter\StringTrim::class],
-                ],
-            ],
-            'address_two' => [
-                'required' => false,
-                'filters'  => [
-                    ['name' => Filter\StripTags::class],
-                    ['name' => Filter\StringTrim::class],
-                ],
-            ],
-            'city'        => [
-                'required'   => true,
-                'filters'    => [
-                    ['name' => Filter\StripTags::class],
-                    ['name' => Filter\StringTrim::class],
-                    ['name' => Filter\UpperCaseWords::class],
-                ],
+            'conf_password' => [
+                'required' =>  true,
                 'validators' => [
                     [
-                        'name'    => Validator\StringLength::class,
+                        'name'    => Validator\Identical::class,
                         'options' => [
-                            'encoding' => 'UTF-8',
-                            'min'      => 1,
-                            'max'      => 255, // cant be longer than this
+                            'token'    => 'password',
+                            'messages' => [
+                               Validator\Identical::NOT_SAME => 'Passwords are not the same',
+                            ],
                         ],
-                    ],
-                ],
-            ],
-            'state'       => [
-                'required'   => true,
-                'filters'    => [
-                    ['name' => Filter\StripTags::class],
-                    ['name' => Filter\StringTrim::class],
-                ],
-                'validators' => [
-                    [
-                        'name'    => Validator\StringLength::class,
-                        'options' => [
-                            'encoding' => 'UTF-8',
-                            'min'      => 1,
-                            'max'      => 2, // cant be longer than this
-                        ],
-                    ],
-                ],
-            ],
-            'zip'         => [
-                'required'   => true,
-                'filters'    => [
-                    ['name' => Filter\StripTags::class],
-                    ['name' => Filter\StringTrim::class],
-                ],
-                'validators' => [
-                    [
-                        'name'    => Validator\StringLength::class,
-                        'options' => [
-                            'encoding' => 'UTF-8',
-                            'min'      => 1,
-                            'max'      => 5, // cant be longer than this
-                        ],
-                    ],
-                    [
-                        'name'    => Validator\Digits::class,
                     ],
                 ],
             ],
