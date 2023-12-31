@@ -3,12 +3,9 @@
 declare(strict_types=1);
 
 namespace User;
+
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
-
-
-//ya no necesitamos decalarar al controlador porque ya usamos el Use User/controller y asiganmos el nomnbre en composer.json
-
 
 return [
     'router' => [

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace User\Db;
 
-final class UserModel
+final class UserModel implements EntityInterface
 {
     public function __construct(
         private ?int $id = null,

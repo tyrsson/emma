@@ -42,7 +42,12 @@ class IndexController extends AbstractActionController
         if (!$form->isValid()) {
             return $view->setVariables(['form' => $form, 'title' => $title]);
         }
-        Debug::dump($title, 'Dumping $title');
+        try {
+            $result = $this->gateway->save($form->getData());
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
         return $view;
     }
 
