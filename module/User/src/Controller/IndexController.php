@@ -8,7 +8,6 @@ use User\Db\TableGateway;
 use Laminas\Hydrator\ReflectionHydrator;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
-use Webinertia\Utils\Debug;
 use Laminas\Form\FormElementManager;
 use Laminas\View\Model\ModelInterface;
 use User\Form\EditUserForm;
@@ -25,7 +24,6 @@ class IndexController extends AbstractActionController
     public function indexAction(): ModelInterface
     {
         $title = 'User Listing';
-       // Debug::dump($title, 'Dumping $title');
         $view = new ViewModel([
             'title' => $title,
             'users' => $this->gateway->fetchAll(),
@@ -34,7 +32,7 @@ class IndexController extends AbstractActionController
     }
     public function createAction(): ModelInterface
     {
-        $title = 'New User';
+        $title = 'Create User';
         $view = new ViewModel();
         $form = $this->formManager->get(Grid::class);
         if (! $this->request->isPost()) {
@@ -51,20 +49,17 @@ class IndexController extends AbstractActionController
                 $this->redirect()->toUrl('/user');
             }
         } catch (\Throwable $th) {
-            //throw $th;
+            // add logging
+            throw $th;
         }
-
         return $view;
     }
 
     public function editAction(): ModelInterface
     {
-        $view = new ViewModel();
-        $title = 'New User';
+        $title = 'Edit User';
         $view = new ViewModel();
         $form = $this->formManager->get(EditUserForm::class);
-        $fieldSet = $form->get('user-data');
-        $fieldSet->remove('password')->remove('conf_password');
         if (! $this->request->isPost()) {
             $userData['user-data'] = (new ReflectionHydrator())->extract(
                 $this->gateway->fetchRow('id', $this->params('id'), ['id', 'userName', 'email', 'password'])
@@ -77,13 +72,13 @@ class IndexController extends AbstractActionController
             return $view->setVariables(['form' => $form, 'title' => $title]);
         }
         try {
-            $data = $form->getData();
             $result = $this->gateway->save($form->getData());
             if ($result) {
                 $this->redirect()->toUrl('/user');
             }
         } catch (\Throwable $th) {
-            //throw $th;
+            // add logging
+            throw $th;
         }
         return $view;
     }
@@ -99,5 +94,4 @@ class IndexController extends AbstractActionController
             }
         }
     }
-
 }
