@@ -51,15 +51,15 @@ return [
         'default' => [
             [
                 'label' => 'User List',
-                'route' => 'user',
+                'uri' => '/user',
                 'class' => 'nav-link',
-                'action' => 'index',
+                //'action' => 'index',
             ],
             [
                 'label' => 'Create User',
-                'route' => 'user',
+                'uri' => '/user/create',
                 'class' => 'nav-link',
-                'action' => 'create',
+                //'action' => 'create',
             ],
         ],
     ],
