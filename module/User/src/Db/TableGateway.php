@@ -6,19 +6,15 @@ namespace User\Db;
 
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\TableGateway\AbstractTableGateway;
+use Webinertia\Db\ModelTrait;
 
 final class TableGateway
 {
+    use ModelTrait;
+
     public function __construct(
-        private AbstractTableGateway $gateway
+        AbstractTableGateway $gateway
     ) {
-    }
-    public function getTable(): string
-    {
-        return $this->gateway->getTable();
-    }
-    public function getAdapter(): AdapterInterface
-    {
-        return $this->gateway->getAdapter();
+        $this->gateway = $gateway;
     }
 }
