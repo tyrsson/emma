@@ -4,22 +4,7 @@ declare(strict_types=1);
 $this->headTitle($this->title);
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-</head>
-<body>
-    <!-- <span>User Index action is running</span> -->
-    <div class="table-responsive">
-    <table class="table table-bordered">
-<thead>
-  
-<table class="table table-striped">
+<table class="table-responsive table-striped table-hover table-group-divider">
   <thead>
   <tr   class="bg-primary">
       <th scope="col">#</th>
@@ -30,24 +15,22 @@ $this->headTitle($this->title);
       <th scope="col">Eliminar</th>
   </thead>
 <tbody>
-
-    <tr class="table-active">
-        <td>1</td>
-        <td>Info fake</td>
-        <td>info fake</td>
-        <td>info fake</td>
-        <td><a href class="btn btn-success">Editar</a></td> 
-        <td><a href class="btn btn-danger">Eliminar</a></td> 
-        <!-- me lleva a otras dos  -->
-        <!-- <td><a href="EliminarCarrera.php?id_carrera=<?php //echo $datos["id_carrera"];?>" class="btn btn-danger">Eliminar</a></td> -->
-    </tr>
-
- 
+    <?php
+        if(isset($this->users)) :
+            foreach($this->users as $user) :
+    ?>
+            <tr class="table-active">
+            <td><?=$user->getId()?></td>
+            <td><?=$user->getUserName()?></td>
+            <td><?=$user->getEmail()?></td>
+            <td><?=$user->getPassword()?></td>
+            <td><a href="/user/edit/<?=$user->getId()?>" class="btn btn-success">Editar</a></td>
+            <td><a href="/user/delete/<?=$user->getId()?>" class="btn btn-danger">Eliminar</a></td>
+            </tr>
+    <?php
+            endforeach;
+        endif;
+    ?>
 </tbody>
-
 </table>
-    
 
-
-</body>
-</html>

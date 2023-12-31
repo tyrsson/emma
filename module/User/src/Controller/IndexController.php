@@ -24,9 +24,12 @@ class IndexController extends AbstractActionController
 
     public function indexAction(): ModelInterface
     {
-        $title = $this->params('action', 'Test Title');
-        Debug::dump($title, 'Dumping $title');
-        $view = new ViewModel(['title' => $title]);
+        $title = 'User Listing';
+       // Debug::dump($title, 'Dumping $title');
+        $view = new ViewModel([
+            'title' => $title,
+            'users' => $this->gateway->fetchAll(),
+        ]);
         return $view;
     }
     public function createAction(): ModelInterface
@@ -83,6 +86,18 @@ class IndexController extends AbstractActionController
             //throw $th;
         }
         return $view;
+    }
+
+    public function deleteAction()
+    {
+        $id = $this->params('id');
+        if ($id !== null) {
+            if ($this->gateway->delete(['id' => $id])) {
+                $this->redirect()->toUrl('/user');
+            } else {
+                throw new \Exception('The target user could not be deleted!!');
+            }
+        }
     }
 
 }
