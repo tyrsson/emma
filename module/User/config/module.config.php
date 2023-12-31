@@ -13,7 +13,7 @@ return [
             'user' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '[/user/:action]',
+                    'route'    => '[/user[/:action]]',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
                         'action'     => 'index',
@@ -45,6 +45,22 @@ return [
             Form\UserForm::class                     => Form\Factory\UserFormFactory::class,
             Form\Grid::class                         => Form\Factory\GridFactory::class,
             Form\Fieldset\Grid::class                => Form\Fieldset\Factory\GridFactory::class,
+        ],
+    ],
+    'navigation' => [
+        'default' => [
+            [
+                'label' => 'User List',
+                'route' => 'user',
+                'class' => 'nav-link',
+                'action' => 'index',
+            ],
+            [
+                'label' => 'Create User',
+                'route' => 'user',
+                'class' => 'nav-link',
+                'action' => 'create',
+            ],
         ],
     ],
     'view_manager' => [

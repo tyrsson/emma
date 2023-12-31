@@ -38,6 +38,17 @@ return [
             Controller\IndexController::class => InvokableFactory::class,
         ],
     ],
+    'navigation' => [
+        'default' => [
+            [
+                'label' => 'Home',
+                'route' => 'home',
+                'class' => 'nav-link',
+                'order' => '-999',
+                'action' => 'index',
+            ],
+        ],
+    ],
     'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,

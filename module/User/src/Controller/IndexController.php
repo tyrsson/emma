@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace User\Controller;
 
-//use Laminas\Db\TableGateway\AbstractTableGateway;
 use User\Db\TableGateway;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
-use Laminas\View\Model\ModelInterface;
 use Webinertia\Utils\Debug;
 use Laminas\Form\FormElementManager;
 use User\Form\Grid;
@@ -44,6 +42,9 @@ class IndexController extends AbstractActionController
         }
         try {
             $result = $this->gateway->save($form->getData());
+            if ($result) {
+                $this->redirect()->toUrl('/user');
+            }
         } catch (\Throwable $th) {
             //throw $th;
         }
